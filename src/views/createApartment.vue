@@ -9,7 +9,7 @@
             <form class="col s12">
               <div class="row">
                 <div class="input-field col s6">
-                  <input id="apt_name" type="text" class="validate">
+                  <input v-model="aptName" id="apt_name" type="text" class="validate">
                   <label for="apt_name">Apartment Name</label>
                 </div>
                 <div class="input-field col s6">
@@ -18,36 +18,32 @@
                 </div>
               </div>
               <div>
-                <div class="input-field col s4">
-                  <form action="#">
+                <form action="#">
+                  <div class="input-field col s4">
                     <p>
                       <label>
                         <input name="group1" type="radio" />
                         <span>Male Only </span>
                       </label>
                     </p>
-                  </form>
-                </div>
-                <div class="input-field col s4">
-                  <form action="#">
+                  </div>
+                  <div class="input-field col s4">
                     <p>
                       <label>
-                        <input class="with-gap" name="group1" type="radio"  />
+                        <input name="group1" type="radio" />
                         <span>Female Only </span>
                       </label>
                     </p>
-                  </form>
-                </div>
-                <div class="input-field col s4">
-                  <form action="#">
+                  </div>
+                  <div class="input-field col s4">
                     <p>
                       <label>
-                        <input class="with-gap" name="group1" type="radio"  />
-                        <span>n/a</span>
+                        <input name="group1" type="radio" />
+                        <span>n/a </span>
                       </label>
                     </p>
-                  </form>
-                </div>
+                  </div>
+                </form>
               </div>
                <div class="row">
                 <form class="col s12">
@@ -269,7 +265,7 @@
             </div>
           </div>
           <div class="row">
-            <a class="waves-effect waves-light btn-small"><i class="material-icons right">check</i>Done</a>         
+            <a v-on:click="saveBuilding" class="waves-effect waves-light btn-small"><i class="material-icons right">check</i>Done</a>         
           </div>
         </div>
 
@@ -277,3 +273,58 @@
       </section>
   </div>
 </template>
+
+<script>
+import axios from 'axios'
+export default {
+  name : "apartments",
+  data(){
+        return{
+          aptName: ""
+    }
+  },
+  methods: {
+    saveBuilding(){
+
+      axios.post("http://swe2.varion.co:3010/admin/buildings/create", {
+        name: this.aptName
+        // owner: String,
+        // ownerTel: String,
+        // ownerEmail: String,
+        // primaryImage: String,
+        // address: String,
+        // comments: [commentSchema],
+        // generalCost: Number,
+        // roomTypes: [roomSchema],
+        // status: String,
+        // description: String,
+        // dateCreated: Number,
+        // amenities: [String],
+        // policies: [String],
+        // wifiProvided: Boolean,
+        // laundryFacilities: Boolean,
+        // laundryPolicy: String,
+        // walkingDistanceToCampus: Number,
+        // sharedStudyArea: Boolean,
+        // securityFeatures: [String],
+        // numberOfFloors: Number,
+        // hasParking: Boolean,
+        // maleOnly: Boolean,
+        // femaleOnly: Boolean,
+        // coed: Boolean,
+        // wheelChairAccessible: Boolean,
+        // houseKeepingServices: Boolean,
+        // hasElevator: Boolean
+      })
+      .then(data=>{
+        if (data.success){
+          window.console.log("Created")
+        }
+      })
+      .catch(err=>{
+        window.console.log(err)
+      })
+    }
+  }
+}
+</script>

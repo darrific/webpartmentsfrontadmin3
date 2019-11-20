@@ -315,3 +315,65 @@
      </section>
   </div>
 </template>
+
+
+<script>
+import axios from 'axios'
+export default {
+  name : "apartments",
+  data(){
+        return{
+          aptName: ""
+    }
+  },
+  mounted(){
+    axios.get("http://swe2.varion.co:3010/admin/buildings/"+ this.id)
+    .then(date=>{
+      
+    })
+  }
+  methods: {
+    updateBuilding(){
+
+      axios.post("http://swe2.varion.co:3010/admin/buildings/edit/id", {
+        name: this.aptName
+        // owner: String,
+        // ownerTel: String,
+        // ownerEmail: String,
+        // primaryImage: String,
+        // address: String,
+        // comments: [commentSchema],
+        // generalCost: Number,
+        // roomTypes: [roomSchema],
+        // status: String,
+        // description: String,
+        // dateCreated: Number,
+        // amenities: [String],
+        // policies: [String],
+        // wifiProvided: Boolean,
+        // laundryFacilities: Boolean,
+        // laundryPolicy: String,
+        // walkingDistanceToCampus: Number,
+        // sharedStudyArea: Boolean,
+        // securityFeatures: [String],
+        // numberOfFloors: Number,
+        // hasParking: Boolean,
+        // maleOnly: Boolean,
+        // femaleOnly: Boolean,
+        // coed: Boolean,
+        // wheelChairAccessible: Boolean,
+        // houseKeepingServices: Boolean,
+        // hasElevator: Boolean
+      })
+      .then(data=>{
+        if (data.success){
+          window.console.log("Created")
+        }
+      })
+      .catch(err=>{
+        window.console.log(err)
+      })
+    }
+  }
+}
+</script>

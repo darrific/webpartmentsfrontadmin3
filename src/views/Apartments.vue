@@ -12,7 +12,6 @@
                 <thead>
                   <tr>
                       <th>Building Name</th>
-                      <th>Date</th>
                       <th>Contact Info</th>
                       <th>Address</th>
                       <th>Status</th>
@@ -22,15 +21,14 @@
                 </thead>
                 <tbody>
                   <tr v-bind:key="apt._id" v-for="apt in apartments">
-                    <td>{{}}</td>
-                    <td>31.66.1027</td>
-                    <td>333-3333</td>
-                    <td>#60 skjfnsdksjdnf sdkjfnk, Curepe</td>
-                    <td>Available</td>
+                    <td>{{apt.name}}</td>
+                    <td>{{apt.ownerTel}}</td>
+                    <td>{{apt.address}}</td>
+                    <td>{{apt.status}}</td>
                     <td>
-                      <a href="#">
-                        <i class="material-icons">edit</i>
-                      </a>
+                      <router-link :to="{ name: 'editapartment', params: { id: apt._id }}">
+                        <a href="#"><i class="material-icons">edit</i></a>
+                      </router-link>
                     </td>
                     <td>
                       <a class="btn-floating modal-trigger" href="#delete" >
@@ -50,11 +48,23 @@
 <script>
 import axios from 'axios'
 export default {
-  name : apartments,
+  name : "apartments",
   data(){
         return{
             apartments: [] 
     }
   },
+  mounted(){
+    axios.get("http://swe2.varion.co:3010/admin/buildings")
+    .then(data=>{
+      window.console.log(data.data.data)
+      data.data.data.forEach(element => {
+        this.apartments.push(element)
+      });
+    })
+    .catch(err=>{
+      window.console.log(err)
+    })
+  }
 }
 </script>
