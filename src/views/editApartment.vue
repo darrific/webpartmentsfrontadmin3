@@ -4,7 +4,7 @@
        <div class="container">
 
          <div>
-           <h1>Edit {{this.$route.params.apartmentName}}</h1>
+           <h1>Edit {{apt.name}}</h1>
          </div>
 
           <div class="row">
@@ -12,11 +12,10 @@
             <form class="col s12">
               <div class="row">
                 <div class="input-field col s6">
-                  <input id="apt_name" type="text" class="validate" :placeholder="apt.name">
+                  <input id="apt_name" type="text" class="validate" v-model="apt.name">
                 </div>
                 <div class="input-field col s6">
-                  <input id="gen_cost" type="number" class="validate">
-                  <label for="gen_cost">General Cost (Between 1 and 3)</label>
+                  <input id="gen_cost" type="number" class="validate" :value="apt.generalCost">
                 </div>
               </div>
               <div>
@@ -308,7 +307,7 @@
             </div>
           </div>
           <div class="row">
-            <a :click="updateBuilding" class="waves-effect waves-light btn-small"><i class="material-icons right">check</i>Done</a>         
+            <a @click="updateBuilding" class="waves-effect waves-light btn-small"><i class="material-icons right">check</i>Done</a>         
           </div>
        </div>
      </section>
@@ -321,8 +320,8 @@ import axios from 'axios'
 export default {
   name : "apartments",
   data(){
-        return{
-          apt: {}
+    return{
+      apt: {}
     }
   },
   mounted(){
@@ -333,7 +332,9 @@ export default {
   },
   methods: {
     updateBuilding(){
-      axios.post("http://swe2.varion.co:3010/admin/buildings/edit/id"+this.$route.params.apartmentId, {
+      console.log(this.apt.name)
+      axios.post("http://swe2.varion.co:3010/admin/buildings/edit", {
+        id: this.apt._id,
         name: this.apt.name
         // owner: String,
         // ownerTel: String,
@@ -364,12 +365,10 @@ export default {
         // hasElevator: Boolean
       })
       .then(data=>{
-        if (data.success){
-          window.console.log("Created")
-        }
+        console.log(data);
       })
       .catch(err=>{
-        window.console.log(err)
+        console.log(err)
       })
     }
   }
