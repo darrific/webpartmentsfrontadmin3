@@ -26,7 +26,7 @@
                     <td>{{apt.address}}</td>
                     <td>{{apt.status}}</td>
                     <td>
-                      <router-link :to="{ name: 'editapartment', params: { id: apt._id }}">
+                      <router-link :to="{ name: 'editapartment', params: { apartmentId: apt._id, apartmentName: apt.name}}">
                         <a href="#"><i class="material-icons">edit</i></a>
                       </router-link>
                     </td>
@@ -47,6 +47,7 @@
 
 <script>
 import axios from 'axios'
+import Router from 'vue-router'
 export default {
   name : "apartments",
   data(){

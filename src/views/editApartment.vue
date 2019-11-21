@@ -4,7 +4,7 @@
        <div class="container">
 
          <div>
-           <h1>Edit "Name of the Apartment Goes Here"</h1>
+           <h1>Edit {{this.$route.params.apartmentName}}</h1>
          </div>
 
           <div class="row">
@@ -12,8 +12,7 @@
             <form class="col s12">
               <div class="row">
                 <div class="input-field col s6">
-                  <input id="apt_name" type="text" class="validate">
-                  <label for="apt_name">Apartment Name</label>
+                  <input id="apt_name" type="text" class="validate" :placeholder="apt.name">
                 </div>
                 <div class="input-field col s6">
                   <input id="gen_cost" type="number" class="validate">
@@ -309,7 +308,7 @@
             </div>
           </div>
           <div class="row">
-            <a class="waves-effect waves-light btn-small"><i class="material-icons right">check</i>Done</a>         
+            <a :click="updateBuilding" class="waves-effect waves-light btn-small"><i class="material-icons right">check</i>Done</a>         
           </div>
        </div>
      </section>
@@ -323,20 +322,19 @@ export default {
   name : "apartments",
   data(){
         return{
-          aptName: ""
+          apt: {}
     }
   },
   mounted(){
-    axios.get("http://swe2.varion.co:3010/admin/buildings/"+ this.id)
-    .then(date=>{
-      
+    axios.get("http://swe2.varion.co:3010/admin/buildings/"+this.$route.params.apartmentId)
+    .then(data=>{
+      this.apt = data.data.data;
     })
-  }
+  },
   methods: {
     updateBuilding(){
-
-      axios.post("http://swe2.varion.co:3010/admin/buildings/edit/id", {
-        name: this.aptName
+      axios.post("http://swe2.varion.co:3010/admin/buildings/edit/id"+this.$route.params.apartmentId, {
+        name: this.apt.name
         // owner: String,
         // ownerTel: String,
         // ownerEmail: String,
