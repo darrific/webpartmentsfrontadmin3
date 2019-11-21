@@ -32,7 +32,7 @@
                     </td>
                     <td>
                       <a class="btn-floating modal-trigger" href="#delete" >
-                        <i class="material-icons">delete</i>
+                        <i class="material-icons" @click="deleteBuilding(apt._id)">delete</i>
                       </a>
                     </td>
                   </tr>
@@ -66,6 +66,22 @@ export default {
     .catch(err=>{
       window.console.log(err)
     })
+  },
+  methods: {
+    deleteBuilding(id){
+      axios.post("http://swe2.varion.co:3010/admin/buildings/delete/", {
+        buildingId: id
+      })
+      .then(data=>{
+        console.log(data);
+        if(data.success){
+          // Remove element from this.data.apartments array
+        }
+      })
+      .catch(err=>{
+        console.log(err);
+      })
+    }
   }
 }
 </script>
