@@ -4,12 +4,8 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/apartments">Apartments</router-link> |
-      <router-link to="/createapartment">Create Apartment</router-link> |
-      <router-link to="/editapartment">Edit Apartment</router-link> |
       <router-link to="/users">Users</router-link> |
       <router-link to="/reviews">Reviews</router-link> |
-      <router-link to="/createroomtype">Create Room Type</router-link> |
-      <router-link to="/editroomtype">Edit Room Type</router-link> |
       <router-link to="/bugreport">Bug Reports</router-link>
 
 

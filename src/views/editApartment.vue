@@ -11,11 +11,17 @@
             <h5>Main Information</h5>
             <form class="col s12">
               <div class="row">
-                <div class="input-field col s6">
+                <div class="input-field col s4">
                   <input id="apt_name" type="text" class="validate" v-model="apt.name">
+                  <span class="helper-text">Apartment Name</span>
                 </div>
-                <div class="input-field col s6">
+                <div class="input-field col s4">
                   <input id="gen_cost" type="number" class="validate" :value="apt.generalCost">
+                  <span class="helper-text">General Cost</span>
+                </div>
+                <div class="input-field col s4">
+                  <input v-model="apt.dateCreated" id="date_created" type="text" class="validate">
+                  <span class="helper-text">Date Created</span>
                 </div>
               </div>
               <div>
@@ -23,7 +29,7 @@
                   <form action="#">
                     <p>
                       <label>
-                        <input name="group1" type="radio" />
+                        <input v-model="apt.maleOnly" name="group1" type="radio" required />
                         <span>Male Only </span>
                       </label>
                     </p>
@@ -33,7 +39,7 @@
                   <form action="#">
                     <p>
                       <label>
-                        <input class="with-gap" name="group1" type="radio"  />
+                        <input v-model="apt.femaleOnly" class="with-gap" name="group1" type="radio"  />
                         <span>Female Only </span>
                       </label>
                     </p>
@@ -43,50 +49,30 @@
                   <form action="#">
                     <p>
                       <label>
-                        <input class="with-gap" name="group1" type="radio"  />
+                        <input v-model="apt.coed" class="with-gap" name="group1" type="radio"  />
                         <span>n/a</span>
                       </label>
                     </p>
                   </form>
                 </div>
               </div>
-               <div class="row">
-                <form class="col s12">
-                  <div class="row">
-                    <div class="input-field col s12">
-                      <textarea id="amenities" class="materialize-textarea"></textarea>
-                      <label for="amenities">Amenities</label>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <div class="input-field col s6">
+              <div class="row">
                 <form action="#">
+                  <div class="col s6">
                   <p>
                     <label>
-                      <input class="with-gap" name="group1" type="radio"  />
+                      <input v-model="apt.status" name="group1" type="radio"  id="avail"/>
                       <span>Avaliable Rooms</span>
                     </label>
                   </p>
-                </form>
-              </div>
-              <div class="input-field col s6">
-                <form action="#">
-                  <p>
-                    <label>
-                      <input class="with-gap" name="group1" type="radio"  />
-                      <span>No Avaliable Rooms</span>
-                    </label>
-                  </p>
-                </form>
-              </div>
-              <div class="row">
-                <form class="col s12">
-                  <div class="row">
-                    <div class="input-field col s12">
-                      <textarea id="policies" class="materialize-textarea"></textarea>
-                      <label for="policies">Policies</label>
-                    </div>
+                </div>
+                  <div class="col s6">
+                    <p>
+                      <label>
+                        <input v-model="apt.status"  name="group1" type="radio" id="notavail" />
+                        <span>No Avaliable Rooms</span>
+                      </label>
+                    </p>
                   </div>
                 </form>
               </div>
@@ -94,8 +80,18 @@
                 <form class="col s12">
                   <div class="row">
                     <div class="input-field col s12">
-                      <textarea id="description" class="materialize-textarea"></textarea>
-                      <label for="description">Desciription</label>
+                      <input v-model="apt.policies" id="apt_pol" type="text" class="validate">
+                      <span class="helper-text">Policies</span>
+                  </div>
+                  </div>
+                </form>
+              </div>
+              <div class="row">
+                <form class="col s12">
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input v-model="apt.description" id="desc" type="text" class="validate">
+                      <span class="helper-text">Desctiption</span>
                     </div>
                   </div>
                 </form>
@@ -108,22 +104,22 @@
             <form class="col s12">
               <div class="row">
                 <div class="input-field col s4">
-                  <input id="owner_name" type="text" class="validate">
-                  <label for="owner_name">Owner Name</label>
+                  <input v-model="apt.owner" id="owner_name" type="text" class="validate">
+                  <span class="helper-text">Owner Name</span>
                 </div>
                 <div class="input-field col s4">
-                  <input id="owner_phone_number" type="number" class="validate">
-                  <label for="owner_phone_number">Owner Phone Number</label>
+                  <input v-model="apt.ownerTel" id="owner_phone_number" type="number" class="validate">
+                  <span class="helper-text">Owner Telephone Number</span>
                 </div>
                 <div class="input-field col s4">
-                  <input id="owner_email" type="text" class="validate">
-                  <label for="owner_email">Owner Email</label>
+                  <input v-model="apt.ownerEmail" id="owner_email" type="text" class="validate">
+                  <span class="helper-text">Owner Email</span>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field col s12">
-                  <input id="apartment_address" type="text" class="validate">
-                  <label for="apartment_address">Apartment Address</label>
+                  <input v-model="apt.address" id="apartment_address" type="text" class="validate">
+                  <span class="helper-text">Apartment Address</span>
                 </div>
               </div>
               <label for="room_types">Room Types</label>
@@ -142,19 +138,25 @@
                     <td>Studio</td>
                     <td>3137</td>
                     <td>
-                      <a class="btn-floating" href="#">
-                        <i class="material-icons">add</i>
-                      </a>
+                    <router-link :to="{name: 'createroomtype'}">
+                        <a class="btn-floating" href="#">
+                          <i class="material-icons">add</i>
+                        </a>
+                      </router-link>
                     </td>
                     <td>
-                      <a class="btn-floating" href="#">
-                        <i class="material-icons">edit</i>
-                      </a>
+                      <router-link :to="{name: 'editroomtype'}">
+                        <a class="btn-floating" href="#">
+                          <i class="material-icons">edit</i>
+                        </a>
+                      </router-link>   
                     </td>
                     <td>
-                      <a class="btn-floating" href="#delete" >
-                        <i class="material-icons">delete</i>
-                      </a>
+                      <router-link :to="{name: 'createapartment'}">
+                        <a class="btn-floating" href="#delete" >
+                          <i class="material-icons">delete</i>
+                        </a>
+                      </router-link>
                     </td>
                   </tr>
                 </tbody>
@@ -169,7 +171,7 @@
                   <form action="#">
                     <p>
                       <label>
-                        <input type="checkbox" />
+                        <input v-model="apt.wifiProvided" type="checkbox" />
                         <span>WiFi</span>
                        </label>
                     </p>
@@ -179,7 +181,7 @@
                   <form action="#">
                     <p>
                       <label>
-                        <input type="checkbox" />
+                        <input v-model="apt.laundryFacilities" type="checkbox" />
                         <span>Laundry Facilities</span>
                        </label>
                     </p>
@@ -189,7 +191,7 @@
                   <form action="#">
                     <p>
                       <label>
-                        <input type="checkbox" />
+                        <input v-model="apt.hasParking" type="checkbox" />
                         <span>Parking</span>
                        </label>
                     </p>
@@ -199,7 +201,7 @@
                   <form action="#">
                     <p>
                       <label>
-                        <input type="checkbox" />
+                        <input v-model="apt.wheelChairAccessible" type="checkbox" />
                         <span>Wheel Chair Accessibility</span>
                        </label>
                     </p>
@@ -209,7 +211,7 @@
                   <form action="#">
                     <p>
                       <label>
-                        <input type="checkbox" />
+                        <input v-model="apt.houseKeepingServices" type="checkbox" />
                         <span>House Keeping Services</span>
                        </label>
                     </p>
@@ -219,18 +221,38 @@
                   <form action="#">
                     <p>
                       <label>
-                        <input type="checkbox" />
+                        <input v-model="apt.sharedStudyArea" type="checkbox" />
                         <span>Shared Study Area</span>
                        </label>
                     </p>
                   </form>
                 </div>
+                <div class="input-field col s12">
+                  <form action="#">
+                    <p>
+                      <label>
+                        <input v-model="apt.hasElevator" type="checkbox" />
+                        <span>Elevator</span>
+                       </label>
+                    </p>
+                  </form>
+                </div>
+                <div class="row">
+                <form class="col s12">
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input v-model="apt.amenities" id="desc" type="text" class="validate">
+                      <span class="helper-text">Amenities</span>
+                    </div>
+                  </div>
+                </form>
+              </div>
                 <div class="row">
                   <form class="col s12">
                     <div class="row">
                       <div class="input-field col s12">
-                        <textarea id="laundry_policies" class="materialize-textarea"></textarea>
-                        <label for="laundry_policies">Laundry Policy</label>
+                        <input v-model="apt.laundryPolicy" id="desc" type="text" class="validate">
+                        <span class="helper-text">Laundry Policy</span>
                       </div>
                     </div>
                   </form>
@@ -239,19 +261,19 @@
                   <form class="col s12">
                     <div class="row">
                       <div class="input-field col s12">
-                        <textarea id="security_features" class="materialize-textarea"></textarea>
-                        <label for="security_features">Security Features</label>
+                        <input v-model="apt.securityFeatures" id="desc" type="text" class="validate">
+                        <span class="helper-text">Security Features</span>
                       </div>
                     </div>
                   </form>
                 </div>
                 <div class="input-field col s6">
-                  <input id="num_floors" type="number" class="validate">
-                  <label for="num_floors">Number of Floors</label>
+                  <input v-model="apt.numberOfFloors" id="num_floors" type="number" class="validate">
+                  <span class="helper-text">Number of Floors</span>
                 </div>
                 <div class="input-field col s6">
-                  <input id="walking_dist" type="number" class="validate">
-                  <label for="walking_dist">Walking Distance to Campus</label>
+                  <input v-model="apt.walkingDistanceToCampus" id="walking_dist" type="number" class="validate">
+                  <span class="helper-text">Walking Distance To Campus</span>
                 </div>
               </div>
           </div>
@@ -328,41 +350,43 @@ export default {
     axios.get("http://swe2.varion.co:3010/admin/buildings/"+this.$route.params.apartmentId)
     .then(data=>{
       this.apt = data.data.data;
+
+      if (this.apt.status == "avaliable") document.getElementById('avail').checked = true;
+      if (this.apt.status == "not avaliable") document.getElementById('notavail').checked = true;
     })
   },
   methods: {
     updateBuilding(){
-      console.log(this.apt.name)
       axios.post("http://swe2.varion.co:3010/admin/buildings/edit", {
         id: this.apt._id,
-        name: this.apt.name
-        // owner: String,
-        // ownerTel: String,
-        // ownerEmail: String,
+        name: this.apt.name,
+        owner: this.apt.owner,
+        ownerTel: this.apt.ownerTel,
+        ownerEmail: this.apt.ownerEmail,
         // primaryImage: String,
-        // address: String,
+        address: this.apt.address,
         // comments: [commentSchema],
-        // generalCost: Number,
+        generalCost: this.apt.generalCost,
         // roomTypes: [roomSchema],
-        // status: String,
-        // description: String,
-        // dateCreated: Number,
-        // amenities: [String],
-        // policies: [String],
-        // wifiProvided: Boolean,
-        // laundryFacilities: Boolean,
-        // laundryPolicy: String,
-        // walkingDistanceToCampus: Number,
-        // sharedStudyArea: Boolean,
-        // securityFeatures: [String],
-        // numberOfFloors: Number,
-        // hasParking: Boolean,
-        // maleOnly: Boolean,
-        // femaleOnly: Boolean,
-        // coed: Boolean,
-        // wheelChairAccessible: Boolean,
-        // houseKeepingServices: Boolean,
-        // hasElevator: Boolean
+        status: this.apt.status,
+        description: this.apt.desctiption,
+        dateCreated: this.apt.dateCreated,
+        amenities: this.apt.amenities,
+        policies: this.apt.policies,
+        wifiProvided: this.apt.wifiProvided,
+        laundryFacilities: this.apt.laundryFacilities,
+        laundryPolicy: this.apt.laundryPolicy,
+        walkingDistanceToCampus: this.apt.walkingDistanceToCampus,
+        sharedStudyArea: this.apt.securityFeatures,
+        securityFeatures: this.apt.securityFeatures,
+        numberOfFloors: this.apt.numberOfFloors,
+        hasParking: this.apt.hasParking,
+        maleOnly: Boolean,
+        femaleOnly: Boolean,
+        coed: Boolean,
+        wheelChairAccessible: this.apt.wheelChairAccessible,
+        houseKeepingServices: this.apt.houseKeepingServices,
+        hasElevator: this.apt.hasElevator
       })
       .then(data=>{
         console.log(data);

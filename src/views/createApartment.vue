@@ -2,19 +2,23 @@
   <div class="createApartment">
       <section>
         <div class="container">
-          <h1>Create An Apartment"</h1>
+          <h1>Create An Apartment</h1>
           <div class="row col xl12">
             <div>
             <h5>Main Information</h5>
             <form class="col s12">
               <div class="row">
-                <div class="input-field col s6">
+                <div class="input-field col s4">
                   <input v-model="aptName" id="apt_name" type="text" class="validate">
                   <label for="apt_name">Apartment Name</label>
                 </div>
-                <div class="input-field col s6">
-                  <input id="gen_cost" type="number" class="validate">
+                <div class="input-field col s4">
+                  <input v-model="generalCost" id="gen_cost" type="number" class="validate">
                   <label for="gen_cost">General Cost (Between 1 and 3)</label>
+                </div>
+                <div class="input-field col s4">
+                  <input v-model="dateCreated" id="date_created" type="text" class="validate">
+                  <label for="date_created">Date Created</label>
                 </div>
               </div>
               <div>
@@ -22,7 +26,7 @@
                   <div class="input-field col s4">
                     <p>
                       <label>
-                        <input name="group1" type="radio" />
+                        <input v-model="maleOnly" name="group1" type="radio" required />
                         <span>Male Only </span>
                       </label>
                     </p>
@@ -30,7 +34,7 @@
                   <div class="input-field col s4">
                     <p>
                       <label>
-                        <input name="group1" type="radio" />
+                        <input v-model="femaleOnly" name="group1" type="radio" />
                         <span>Female Only </span>
                       </label>
                     </p>
@@ -38,50 +42,38 @@
                   <div class="input-field col s4">
                     <p>
                       <label>
-                        <input name="group1" type="radio" />
+                        <input v-model="coed" name="group1" type="radio" />
                         <span>n/a </span>
                       </label>
                     </p>
                   </div>
                 </form>
               </div>
-               <div class="row">
-                <form class="col s12">
-                  <div class="row">
-                    <div class="input-field col s12">
-                      <textarea id="amenities" class="materialize-textarea"></textarea>
-                      <label for="amenities">Amenities</label>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <div class="input-field col s6">
+              <div class="row">
                 <form action="#">
+                  <div class="col s6">
                   <p>
                     <label>
-                      <input class="with-gap" name="group1" type="radio"  />
+                      <input v-model="status" name="group1" type="radio"  id="avail"/>
                       <span>Avaliable Rooms</span>
                     </label>
                   </p>
-                </form>
-              </div>
-              <div class="input-field col s6">
-                <form action="#">
-                  <p>
-                    <label>
-                      <input class="with-gap" name="group1" type="radio"  />
-                      <span>No Avaliable Rooms</span>
-                    </label>
-                  </p>
+                </div>
+                  <div class="col s6">
+                    <p>
+                      <label>
+                        <input v-model="status"  name="group1" type="radio" id="notavail" />
+                        <span>No Avaliable Rooms</span>
+                      </label>
+                    </p>
+                  </div>
                 </form>
               </div>
               <div class="row">
                 <form class="col s12">
-                  <div class="row">
-                    <div class="input-field col s12">
-                      <textarea id="policies" class="materialize-textarea"></textarea>
-                      <label for="policies">Policies</label>
-                    </div>
+                  <div class="input-field col s12">
+                    <input v-model="policies" id="apt_pol" type="text" class="validate">
+                    <label for="apt_name">Apartment Policy</label>
                   </div>
                 </form>
               </div>
@@ -89,13 +81,14 @@
                 <form class="col s12">
                   <div class="row">
                     <div class="input-field col s12">
-                      <textarea id="description" class="materialize-textarea"></textarea>
-                      <label for="description">Desciription</label>
+                      <input v-model="description" id="desc" type="text" class="validate">
+                      <label for="apt_name">Description</label>
                     </div>
                   </div>
                 </form>
               </div>
-              <label for="room_types">Room Types</label>
+              <h5>Room Types</h5>
+              <div class="row"></div>
               <table id="room_types">
                 <thead>
                   <tr>
@@ -111,46 +104,55 @@
                     <td>Studio</td>
                     <td>3137</td>
                     <td>
-                      <a class="btn-floating" href="#">
-                        <i class="material-icons">add</i>
-                      </a>
+                      <router-link :to="{name: 'createroomtype'}">
+                        <a class="btn-floating" href="#">
+                          <i class="material-icons">add</i>
+                        </a>
+                      </router-link>
                     </td>
                     <td>
-                      <a class="btn-floating" href="#">
-                        <i class="material-icons">edit</i>
-                      </a>
+                      <router-link :to="{name: 'editroomtype'}">
+                        <a class="btn-floating" href="#">
+                          <i class="material-icons">edit</i>
+                        </a>
+                      </router-link>   
                     </td>
                     <td>
-                      <a class="btn-floating" href="#delete" >
-                        <i class="material-icons">delete</i>
-                      </a>
+                      <router-link :to="{name: 'createapartment'}">
+                        <a class="btn-floating" href="#delete" >
+                          <i class="material-icons">delete</i>
+                        </a>
+                      </router-link>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </form>
           </div>
+          <div class="row"></div>
+          <div class="row"></div>
 
           <div>
             <h5>Owner Information</h5>
+            <div class="row"></div>
             <form class="col s12">
               <div class="row">
                 <div class="input-field col s4">
-                  <input id="owner_name" type="text" class="validate">
+                  <input v-model="owner" id="owner_name" type="text" class="validate">
                   <label for="owner_name">Owner Name</label>
                 </div>
                 <div class="input-field col s4">
-                  <input id="owner_phone_number" type="number" class="validate">
+                  <input v-model="ownerTel" id="owner_phone_number" type="number" class="validate">
                   <label for="owner_phone_number">Owner Phone Number</label>
                 </div>
                 <div class="input-field col s4">
-                  <input id="owner_email" type="text" class="validate">
+                  <input v-model="ownerEmail" id="owner_email" type="text" class="validate">
                   <label for="owner_email">Owner Email</label>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field col s12">
-                  <input id="apartment_address" type="text" class="validate">
+                  <input v-model="address" id="apartment_address" type="text" class="validate">
                   <label for="apartment_address">Apartment Address</label>
                 </div>
               </div>
@@ -164,7 +166,7 @@
                   <form action="#">
                     <p>
                       <label>
-                        <input type="checkbox" />
+                        <input v-model="hasWiFi" type="checkbox" />
                         <span>WiFi</span>
                        </label>
                     </p>
@@ -174,7 +176,7 @@
                   <form action="#">
                     <p>
                       <label>
-                        <input type="checkbox" />
+                        <input v-model="laundryFacilities" type="checkbox" />
                         <span>Laundry Facilities</span>
                        </label>
                     </p>
@@ -184,7 +186,7 @@
                   <form action="#">
                     <p>
                       <label>
-                        <input type="checkbox" />
+                        <input v-model="hasParking" type="checkbox" />
                         <span>Parking</span>
                        </label>
                     </p>
@@ -194,7 +196,7 @@
                   <form action="#">
                     <p>
                       <label>
-                        <input type="checkbox" />
+                        <input v-model="wheelChairAccessible" type="checkbox" />
                         <span>Wheel Chair Accessibility</span>
                        </label>
                     </p>
@@ -204,7 +206,7 @@
                   <form action="#">
                     <p>
                       <label>
-                        <input type="checkbox" />
+                        <input v-model="houseKeepingServices" type="checkbox" />
                         <span>House Keeping Services</span>
                        </label>
                     </p>
@@ -214,18 +216,38 @@
                   <form action="#">
                     <p>
                       <label>
-                        <input type="checkbox" />
+                        <input v-model="sharedStudyArea" type="checkbox" />
                         <span>Shared Study Area</span>
                        </label>
                     </p>
                   </form>
                 </div>
+                <div class="input-field col s12">
+                  <form action="#">
+                    <p>
+                      <label>
+                        <input v-model="hasElevator" type="checkbox" />
+                        <span>Elevator</span>
+                       </label>
+                    </p>
+                  </form>
+                </div>
+                <div class="row">
+                <form class="col s12">
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input v-model="amenities" id="desc" type="text" class="validate">
+                      <label for="apt_name">Other Amenities</label>
+                    </div>
+                  </div>
+                </form>
+              </div>
                 <div class="row">
                   <form class="col s12">
                     <div class="row">
                       <div class="input-field col s12">
-                        <textarea id="laundry_policies" class="materialize-textarea"></textarea>
-                        <label for="laundry_policies">Laundry Policy</label>
+                        <input v-model="laundryPolicy" id="desc" type="text" class="validate">
+                        <label for="apt_name">Laundry Policy</label>
                       </div>
                     </div>
                   </form>
@@ -234,18 +256,18 @@
                   <form class="col s12">
                     <div class="row">
                       <div class="input-field col s12">
-                        <textarea id="security_features" class="materialize-textarea"></textarea>
-                        <label for="security_features">Security Features</label>
+                        <input v-model="securityFeatures" id="desc" type="text" class="validate">
+                        <label for="apt_name">Security Features</label>
                       </div>
                     </div>
                   </form>
                 </div>
                 <div class="input-field col s6">
-                  <input id="num_floors" type="number" class="validate">
+                  <input v-model="numFloors" id="num_floors" type="number" class="validate">
                   <label for="num_floors">Number of Floors</label>
                 </div>
                 <div class="input-field col s6">
-                  <input id="walking_dist" type="number" class="validate">
+                  <input v-model="walkingDistance" id="walking_dist" type="number" class="validate">
                   <label for="walking_dist">Walking Distance to Campus</label>
                 </div>
               </div>
@@ -280,49 +302,102 @@ export default {
   name : "apartments",
   data(){
         return{
-          aptName: ""
+          aptName: "",
+          generalCost: "",
+          owner: "",
+          ownerTel: "",
+          ownerEmail: "",
+          address: "",
+          dateCreated: "",
+          aptPolicy: "",
+          description: "",
+          policies: "",
+          amenities: "",
+          laundryPolicy: "",
+          securityFeatures: "",
+          numFloors: "",
+          walkingDistance: "",
+          hasWiFi: "",
+          hasParking: "",
+          wheelChairAccessible: "",
+          houseKeepingServices: "",
+          laundryFacilities: "",
+          sharedStudyArea: "",
+          hasElevator: "",
+          maleOnly: "",
+          femaleOnly: "",
+          coed: "",
+          status: ""
     }
   },
   methods: {
     saveBuilding(){
+      // var today = new Date();
+      // var dd = String(today.getDate()).padStart(2, '0');
+      // var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      // var yyyy = today.getFullYear();
+      // today = mm + '-' + dd + '-' + yyyy;
+      // console.log(typeof today);
+
+      if (this.maleOnly != true) this.maleOnly = false
+      if (this.femaleOnly != true) this.femaleOnly = false
+      if (this.coed != true) this.coed = false
+
+      var ya = document.getElementById('avail').checked;
+      var na = document.getElementById('notavail').checked;
+      if (ya) this.status = "avaliable";
+      if (na) this.status = "not avaliable";
+
+      if (this.hasWiFi != true) this.hasWiFi = false
+      if (this.laundryFacilities != true) this.laundryFacilities = false
+      if (this.hasParking != true) this.hasParking = false
+      if (this.wheelChairAccessible != true) this.wheelChairAccessible = false
+      if (this.houseKeepingServices != true) this.houseKeepingServices = false
+      if (this.sharedStudyArea != true) this.sharedStudyArea = false
+      if (this.hasElevator != true) this.hasElevator = false
 
       axios.post("http://swe2.varion.co:3010/admin/buildings/create", {
-        name: this.aptName
-        // owner: String,
-        // ownerTel: String,
-        // ownerEmail: String,
+        name: this.aptName,
+        owner: this.owner,
+        ownerTel: this.ownerTel,
+        ownerEmail: this.ownerEmail,
         // primaryImage: String,
-        // address: String,
+        address: this.address,
         // comments: [commentSchema],
-        // generalCost: Number,
+        generalCost: this.generalCost,
         // roomTypes: [roomSchema],
-        // status: String,
-        // description: String,
-        // dateCreated: Number,
-        // amenities: [String],
-        // policies: [String],
-        // wifiProvided: Boolean,
-        // laundryFacilities: Boolean,
-        // laundryPolicy: String,
-        // walkingDistanceToCampus: Number,
-        // sharedStudyArea: Boolean,
-        // securityFeatures: [String],
-        // numberOfFloors: Number,
-        // hasParking: Boolean,
-        // maleOnly: Boolean,
-        // femaleOnly: Boolean,
-        // coed: Boolean,
-        // wheelChairAccessible: Boolean,
-        // houseKeepingServices: Boolean,
-        // hasElevator: Boolean
+        status: this.status,
+        description: this.description,
+        dateCreated: this.dateCreated,
+        amenities: this.amenities,
+        policies: this.policies,
+        wifiProvided: this.hasWiFi,
+        laundryFacilities: this.laundryFacilities,
+        laundryPolicy: this.laundryPolicy,
+        walkingDistanceToCampus: this.walkingDistance,
+        sharedStudyArea: this.sharedStudyArea,
+        securityFeatures: this.securityFeatures,
+        numberOfFloors: this.numFloors,
+        hasParking: this.hasParking,
+        maleOnly: this.maleOnly,
+        femaleOnly: this.femaleOnly,
+        coed: this.coed,
+        wheelChairAccessible: this.wheelChairAccessible,
+        houseKeepingServices: this.houseKeepingServices,
+        hasElevator: this.hasElevator
+
       })
       .then(data=>{
-        if (data.success){
-          window.console.log("Created")
+        console.log(data)
+        if (data.data.success){
+          console.log("Created");
+        }
+        if (!data.data.success){
+          console.log("Was Not Created");
         }
       })
       .catch(err=>{
-        window.console.log(err)
+        console.log(err);
       })
     }
   }

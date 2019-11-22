@@ -4,7 +4,9 @@
         <div class="container">
           <div class="row col xl12">
             <h1>Apartments</h1>
-            <button class="btn waves-effect waves-light">CREATE APARTMENT</button>
+            <router-link :to="{name: 'createapartment'}">
+              <button class="btn waves-effect waves-light">CREATE APARTMENT</button>
+            </router-link>          
           </div>
           <div class="row">
             <div class="col xl12">
@@ -12,6 +14,7 @@
                 <thead>
                   <tr>
                       <th>Building Name</th>
+                      <th>Date Created</th>
                       <th>Contact Info</th>
                       <th>Address</th>
                       <th>Status</th>
@@ -22,6 +25,7 @@
                 <tbody>
                   <tr v-bind:key="apt._id" v-for="apt in apartments">
                     <td>{{apt.name}}</td>
+                    <td>{{apt.dateCreated}}</td>
                     <td>{{apt.ownerTel}}</td>
                     <td>{{apt.address}}</td>
                     <td>{{apt.status}}</td>
@@ -31,7 +35,7 @@
                       </router-link>
                     </td>
                     <td>
-                      <a class="btn-floating modal-trigger" href="#delete" >
+                      <a class="btn-floating modal-trigger" href="#" >
                         <i class="material-icons" @click="deleteBuilding(apt._id)">delete</i>
                       </a>
                     </td>
@@ -58,7 +62,6 @@ export default {
   mounted(){
     axios.get("http://swe2.varion.co:3010/admin/buildings")
     .then(data=>{
-      window.console.log(data.data.data)
       data.data.data.forEach(element => {
         this.apartments.push(element)
       });
@@ -73,15 +76,19 @@ export default {
         buildingId: id
       })
       .then(data=>{
-        console.log(data);
-        if(data.success){
-          // Remove element from this.data.apartments array
+        if(data.data.success){
+          this.apartments.splice(this.apartments.findIndex(element => element._id == id), 1)
+          console.log("Deleted")
+        }
+        if(!data.data){
+          console.log("Not Deleted")
         }
       })
       .catch(err=>{
         console.log(err);
       })
     }
-  }
+  },
+    
 }
 </script>
