@@ -26,7 +26,7 @@
                   <div class="input-field col s4">
                     <p>
                       <label>
-                        <input v-model="maleOnly" name="group1" type="radio" required />
+                        <input v-model="maleOnly" name="group1" type="radio" required id="m" />
                         <span>Male Only </span>
                       </label>
                     </p>
@@ -34,7 +34,7 @@
                   <div class="input-field col s4">
                     <p>
                       <label>
-                        <input v-model="femaleOnly" name="group1" type="radio" />
+                        <input v-model="femaleOnly" name="group1" type="radio" id="f" />
                         <span>Female Only </span>
                       </label>
                     </p>
@@ -42,7 +42,7 @@
                   <div class="input-field col s4">
                     <p>
                       <label>
-                        <input v-model="coed" name="group1" type="radio" />
+                        <input v-model="coed" name="group1" type="radio" id="na" />
                         <span>n/a </span>
                       </label>
                     </p>
@@ -339,9 +339,23 @@ export default {
       // today = mm + '-' + dd + '-' + yyyy;
       // console.log(typeof today);
 
-      if (this.maleOnly != true) this.maleOnly = false
-      if (this.femaleOnly != true) this.femaleOnly = false
-      if (this.coed != true) this.coed = false
+      if (document.getElementById('m').checked){
+        this.maleOnly = true
+        this.femaleOnly = false
+        this.coed = false
+      }
+
+      if (document.getElementById('f').checked){
+        this.maleOnly = false
+        this.femaleOnly = true
+        this.coed = false
+      }
+
+      if (document.getElementById('na').checked){
+        this.maleOnly = false
+        this.femaleOnly = false
+        this.coed = true
+      }
 
       var ya = document.getElementById('avail').checked;
       var na = document.getElementById('notavail').checked;
@@ -389,6 +403,8 @@ export default {
       })
       .then(data=>{
         console.log(data)
+
+
         if (data.data.success){
           console.log("Created");
         }

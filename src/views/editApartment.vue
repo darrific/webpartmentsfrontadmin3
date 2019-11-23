@@ -25,36 +25,35 @@
                 </div>
               </div>
               <div>
-                <div class="input-field col s4">
+                <div class="row">
                   <form action="#">
-                    <p>
-                      <label>
-                        <input v-model="apt.maleOnly" name="group1" type="radio" required />
-                        <span>Male Only </span>
-                      </label>
+                    <div class="col s4">
+                      <p>
+                        <label>
+                          <input v-model="apt.maleOnly" name="group1" type="radio" required id="m" />
+                          <span>Male Only </span>
+                        </label>
                     </p>
+                    </div>
+                    <div class="col s4">
+                      <p>
+                        <label>
+                          <input v-model="apt.femaleOnly" name="group1" type="radio" id="f" />
+                          <span>Female Only </span>
+                        </label>
+                      </p>
+                    </div>
+                    <div class="col s4">
+                      <p>
+                        <label>
+                          <input v-model="apt.coed" name="group1" type="radio" id="na" />
+                          <span>n/a</span>
+                        </label>
+                      </p>
+                    </div>
                   </form>
                 </div>
-                <div class="input-field col s4">
-                  <form action="#">
-                    <p>
-                      <label>
-                        <input v-model="apt.femaleOnly" class="with-gap" name="group1" type="radio"  />
-                        <span>Female Only </span>
-                      </label>
-                    </p>
-                  </form>
-                </div>
-                <div class="input-field col s4">
-                  <form action="#">
-                    <p>
-                      <label>
-                        <input v-model="apt.coed" class="with-gap" name="group1" type="radio"  />
-                        <span>n/a</span>
-                      </label>
-                    </p>
-                  </form>
-                </div>
+
               </div>
               <div class="row">
                 <form action="#">
@@ -350,13 +349,47 @@ export default {
     axios.get("http://swe2.varion.co:3010/admin/buildings/"+this.$route.params.apartmentId)
     .then(data=>{
       this.apt = data.data.data;
-
+      console.log(data)
+      console.log(this.apt)
+      if(this.apt.maleOnly == true) document.getElementById('m').checked = true;
+      if(this.apt.femaleOnly == true) document.getElementById('f').checked = true;
+      if(this.apt.coed == true) document.getElementById('na').checked = true;
       if (this.apt.status == "avaliable") document.getElementById('avail').checked = true;
       if (this.apt.status == "not avaliable") document.getElementById('notavail').checked = true;
     })
   },
   methods: {
     updateBuilding(){
+
+      if (document.getElementById('m').checked){
+        this.apt.maleOnly = true
+        this.apt.femaleOnly = false
+        this.apt.coed = false
+      }
+
+      if (document.getElementById('f').checked){
+        this.apt.maleOnly = false
+        this.apt.femaleOnly = true
+        this.apt.coed = false
+      }
+
+      if (document.getElementById('na').checked){
+        this.apt.maleOnly = false
+        this.apt.femaleOnly = false
+        this.apt.coed = true
+      }
+
+      if (this.apt.status == "avaliable")  document.getElementById('avail').checked;
+      if (this.apt.status == "not avaliable") document.getElementById('notavail').checked;
+
+      if (this.apt.hasWiFi  == null) this.hasWiFi = false
+      if (this.apt.laundryFacilities  == null) this.laundryFacilities = false
+      if (this.apt.hasParking  == null) this.hasParking = false
+      if (this.apt.wheelChairAccessible  == null) this.wheelChairAccessible = false
+      if (this.apt.houseKeepingServices  == null) this.houseKeepingServices = false
+      if (this.apt.sharedStudyArea  == null) this.sharedStudyArea = false
+      if (this.apt.hasElevator  == null) this.hasElevator = false
+
       axios.post("http://swe2.varion.co:3010/admin/buildings/edit", {
         id: this.apt._id,
         name: this.apt.name,
@@ -381,15 +414,21 @@ export default {
         securityFeatures: this.apt.securityFeatures,
         numberOfFloors: this.apt.numberOfFloors,
         hasParking: this.apt.hasParking,
-        maleOnly: Boolean,
-        femaleOnly: Boolean,
-        coed: Boolean,
+        maleOnly: this.apt.maleOnly,
+        femaleOnly: this.apt.femaleOnly,
+        coed: this.apt.console,
         wheelChairAccessible: this.apt.wheelChairAccessible,
         houseKeepingServices: this.apt.houseKeepingServices,
         hasElevator: this.apt.hasElevator
       })
       .then(data=>{
         console.log(data);
+        if (data.data.success){
+          console.log("Edited");
+        }
+        if (!data.data.success){
+          console.log("Failed");
+        }
       })
       .catch(err=>{
         console.log(err)
