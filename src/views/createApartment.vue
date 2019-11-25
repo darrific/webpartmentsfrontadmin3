@@ -295,7 +295,6 @@
       </section>
   </div>
 </template>
-
 <script>
 import axios from 'axios'
 export default {
@@ -332,12 +331,6 @@ export default {
   },
   methods: {
     saveBuilding(){
-      // var today = new Date();
-      // var dd = String(today.getDate()).padStart(2, '0');
-      // var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-      // var yyyy = today.getFullYear();
-      // today = mm + '-' + dd + '-' + yyyy;
-      // console.log(typeof today);
 
       if (document.getElementById('m').checked){
         this.maleOnly = true
@@ -403,8 +396,6 @@ export default {
       })
       .then(data=>{
         console.log(data)
-
-
         if (data.data.success){
           console.log("Created");
         }

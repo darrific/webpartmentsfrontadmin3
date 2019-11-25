@@ -33,7 +33,7 @@
                           <input v-model="apt.maleOnly" name="group1" type="radio" required id="m" />
                           <span>Male Only </span>
                         </label>
-                    </p>
+                      </p>
                     </div>
                     <div class="col s4">
                       <p>
@@ -349,8 +349,6 @@ export default {
     axios.get("http://swe2.varion.co:3010/admin/buildings/"+this.$route.params.apartmentId)
     .then(data=>{
       this.apt = data.data.data;
-      console.log(data)
-      console.log(this.apt)
       if(this.apt.maleOnly == true) document.getElementById('m').checked = true;
       if(this.apt.femaleOnly == true) document.getElementById('f').checked = true;
       if(this.apt.coed == true) document.getElementById('na').checked = true;
@@ -360,7 +358,7 @@ export default {
   },
   methods: {
     updateBuilding(){
-
+      
       if (document.getElementById('m').checked){
         this.apt.maleOnly = true
         this.apt.femaleOnly = false
