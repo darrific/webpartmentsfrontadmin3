@@ -37,6 +37,10 @@
     "env": {
       "node": true
     },
+    "globals": {
+      "$": true,
+      "jQuery": true
+    },
     "extends": [
       "plugin:vue/essential",
       "eslint:recommended"
