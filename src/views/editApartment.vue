@@ -5,6 +5,7 @@
 
          <div>
            <h1>Edit {{apt.name}}</h1>
+           <p class="grey-text">{{apt._id}}</p>
          </div>
 
           <div class="row">
@@ -122,7 +123,7 @@
                 </div>
               </div>
               <h5>Room Types</h5> 
-              <router-link :to="{name: 'createroomtype', apartmentId: apt._id}">
+              <router-link :to="{name: 'createroomtype', params: {apartmentId: apt._id}}">
                 <button class="btn">Add Room</button>
               </router-link>                
               <table id="room_types">
@@ -130,35 +131,25 @@
                   <tr>
                       <th>Room Type Name</th>
                       <th>Price</th>
-                      <!-- <th>Create</th> -->
                       <th>Edit</th>
                       <th>Delete</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Studio</td>
-                    <td>3137</td>
-                    <!-- <td>
-                    <router-link :to="{name: 'createroomtype'}">
-                        <a class="btn-floating" href="#">
-                          <i class="material-icons">add</i>
-                        </a>
-                      </router-link>
-                    </td> -->
+                  <tr v-bind:key="r._id" v-for="r in apt.roomTypes">
+                    <td>{{r.name}}</td>
+                    <td>{{r.price}}</td>
                     <td>
-                      <router-link :to="{name: 'editroomtype'}">
+                      <router-link :to="{name: 'editroomtype', params: {roomTypeId: r._id}}">
                         <a class="btn-floating" href="#">
                           <i class="material-icons">edit</i>
                         </a>
                       </router-link>   
                     </td>
                     <td>
-                      <router-link :to="{name: 'createapartment'}">
-                        <a class="btn-floating" href="#delete" >
-                          <i class="material-icons">delete</i>
-                        </a>
-                      </router-link>
+                      <a class="btn-floating" @click="deleteRoomType(r._id)">
+                        <i class="material-icons">delete</i>
+                      </a>
                     </td>
                   </tr>
                 </tbody>
@@ -389,6 +380,25 @@ export default {
         console.log(data);
         if (data.data.success){
           console.log("Edited");
+        }
+        if (!data.data.success){
+          console.log("Failure ting");
+        }
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+    },
+    deleteRoomType(id){
+      console.log(id);
+      axios.post("http://localhost:3010/admin/buildings/roomtypes/delete", {
+        roomTypeId: id,
+        buildingId: this.apt._id
+      })
+      .then(data=>{
+        console.log(data);
+        if (data.data.success){
+          M.toast({html: 'It Deleted'})
         }
         if (!data.data.success){
           console.log("Failure ting");

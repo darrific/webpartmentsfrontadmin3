@@ -290,7 +290,7 @@ export default {
   methods: {
     saveBuilding(){
 
-      axios.post("http://swe2.varion.co:3010/admin/buildings/create", {
+      axios.post("http://localhost:3010/admin/buildings/create", {
         name: this.aptName,
         owner: this.owner,
         ownerTel: this.ownerTel,

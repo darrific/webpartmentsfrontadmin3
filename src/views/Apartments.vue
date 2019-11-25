@@ -2,18 +2,18 @@
   <div class="apartments">
       <div id="modal1" class="modal">
         <div class="modal-content">
-          <h4>Delete {{deleteid}}</h4>
+          <h4>Delete {{deleteName}}</h4>
           <h6>Enter Password</h6>
           <div class="row">
-          <div class="input-field col s12">
-            <input id="password" type="password" class="validate">
-            <label for="password">Password</label>
+            <div class="input-field col s12">
+              <input id="password" type="password" class="validate">
+              <label for="password">Password</label>
+            </div>
           </div>
-      </div>
         </div>
         <div class="modal-footer">
           <a class="btn-floating modal-trigger" href="#" >
-            <i class="material-icons" @click="deleteBuilding(apt._id)">delete</i>
+            <i class="material-icons" @click="deleteBuilding(this.deleteid)">delete</i>
           </a>
         </div>
       </div>
@@ -74,7 +74,8 @@ export default {
   data(){
         return{
             apartments: [],
-            deleteid: "" 
+            deleteid: "",
+            deleteName: ""
     }
   },
   mounted(){
@@ -90,31 +91,27 @@ export default {
     })
   },
   methods: {
+    deleteModal(id,name){
+      $('.modal').modal('open');
+      this.deleteName = name;
+      this.deleteid = id;
+  
+    },
     deleteBuilding(id){
-      $('.modal').modal('open')
-      this.deleteid = this.apartments[this.apartments.findIndex(element => element._id == id)].name
-      if (document.getElementById("password").value === "dW5KYext*vgj=%^B"){
-        
-        axios.post("http://swe2.varion.co:3010/admin/buildings/delete/", {
-        buildingId: id
-        })
-        .then(data=>{
-          if(data.data.success){
-            this.apartments.splice(this.apartments.findIndex(element => element._id == id), 1)
-            console.log("Deleted")
-          }
-          if(!data.data){
-            console.log("Not Deleted")
-          }
-        })
-        .catch(err=>{
-          console.log(err);
-        })
-      }
-      else {
-        console.log('IDK')
-      }
-      
+      this.deleteid = id;
+      axios.post("http://swe2.varion.co:3010/admin/buildings/delete/", {
+        buildingId: this.deleteid
+      })
+      .then(data=>{
+        console.log(data);
+        if(data.data.success){
+          this.apartments.splice(this.apartments.findIndex(x => x._id == this.deleteid), 1)
+          console.log("Deleted")
+        }
+      })
+      .catch(err=>{
+        console.log(err);
+      })
     }
   },
     

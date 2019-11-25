@@ -3,7 +3,7 @@
       <section>
         <div class="container">
           <div>
-              <h1>Create Room Type</h1>
+              <h1>Create Room Type for</h1>
           </div>    
                 <div class="row">
                     <h5>Main Information</h5>
@@ -249,9 +249,9 @@ export default {
     },
     methods: {
         saveRoomType(){
-            console.log(this.roomType)
-            axios.post("http://swe2.varion.co:3010/admin/buildings/edit",{
-                id: this.$route.params.apartmentId,
+            console.log(this.roomType, this.$route.params)
+            axios.post("http://localhost:3010/admin/buildings/roomtypes/create",{
+                buildingId: this.$route.params.apartmentId,
                 name: this.name,
                 stars: this.stars,
                 price: this.price,
@@ -276,6 +276,8 @@ export default {
                 hasSmokeDetector: this.hasSmokeDetector
             })
             .then(data=>{
+                if(data.data.success)
+                    M.toast({html: 'It Added'})
                 console.log(data);
             })
             .catch(err=>{
