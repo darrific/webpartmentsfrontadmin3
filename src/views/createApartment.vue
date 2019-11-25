@@ -26,7 +26,7 @@
                   <div class="input-field col s4">
                     <p>
                       <label>
-                        <input v-model="maleOnly" name="group1" type="radio" required id="m" />
+                        <input v-model="gender" value="male" name="group1" type="radio" id="m" />
                         <span>Male Only </span>
                       </label>
                     </p>
@@ -34,7 +34,7 @@
                   <div class="input-field col s4">
                     <p>
                       <label>
-                        <input v-model="femaleOnly" name="group1" type="radio" id="f" />
+                        <input v-model="gender" value="female" name="group1" type="radio" id="f" />
                         <span>Female Only </span>
                       </label>
                     </p>
@@ -42,8 +42,8 @@
                   <div class="input-field col s4">
                     <p>
                       <label>
-                        <input v-model="coed" name="group1" type="radio" id="na" />
-                        <span>n/a </span>
+                        <input v-model="gender" value="coed" name="group1" type="radio" id="na" />
+                        <span>coed</span>
                       </label>
                     </p>
                   </div>
@@ -54,7 +54,7 @@
                   <div class="col s6">
                   <p>
                     <label>
-                      <input v-model="status" name="group1" type="radio"  id="avail"/>
+                      <input v-model="status" value="avaliable" name="group1" type="radio"  id="avail"/>
                       <span>Avaliable Rooms</span>
                     </label>
                   </p>
@@ -62,7 +62,7 @@
                   <div class="col s6">
                     <p>
                       <label>
-                        <input v-model="status"  name="group1" type="radio" id="notavail" />
+                        <input v-model="status" value="not avaliable" name="group1" type="radio" id="notavail" />
                         <span>No Avaliable Rooms</span>
                       </label>
                     </p>
@@ -87,46 +87,6 @@
                   </div>
                 </form>
               </div>
-              <h5>Room Types</h5>
-              <div class="row"></div>
-              <table id="room_types">
-                <thead>
-                  <tr>
-                      <th>Room Type Name</th>
-                      <th>Price</th>
-                      <th>Create</th>
-                      <th>Edit</th>
-                      <th>Delete</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Studio</td>
-                    <td>3137</td>
-                    <td>
-                      <router-link :to="{name: 'createroomtype'}">
-                        <a class="btn-floating" href="#">
-                          <i class="material-icons">add</i>
-                        </a>
-                      </router-link>
-                    </td>
-                    <td>
-                      <router-link :to="{name: 'editroomtype'}">
-                        <a class="btn-floating" href="#">
-                          <i class="material-icons">edit</i>
-                        </a>
-                      </router-link>   
-                    </td>
-                    <td>
-                      <router-link :to="{name: 'createapartment'}">
-                        <a class="btn-floating" href="#delete" >
-                          <i class="material-icons">delete</i>
-                        </a>
-                      </router-link>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
             </form>
           </div>
           <div class="row"></div>
@@ -316,52 +276,19 @@ export default {
           securityFeatures: "",
           numFloors: "",
           walkingDistance: "",
-          hasWiFi: "",
-          hasParking: "",
-          wheelChairAccessible: "",
-          houseKeepingServices: "",
-          laundryFacilities: "",
-          sharedStudyArea: "",
-          hasElevator: "",
-          maleOnly: "",
-          femaleOnly: "",
-          coed: "",
+          hasWiFi: false,
+          hasParking: false,
+          wheelChairAccessible: false,
+          houseKeepingServices: false,
+          laundryFacilities: false,
+          sharedStudyArea: false,
+          hasElevator: false,
+          gender: "",
           status: ""
     }
   },
   methods: {
     saveBuilding(){
-
-      if (document.getElementById('m').checked){
-        this.maleOnly = true
-        this.femaleOnly = false
-        this.coed = false
-      }
-
-      if (document.getElementById('f').checked){
-        this.maleOnly = false
-        this.femaleOnly = true
-        this.coed = false
-      }
-
-      if (document.getElementById('na').checked){
-        this.maleOnly = false
-        this.femaleOnly = false
-        this.coed = true
-      }
-
-      var ya = document.getElementById('avail').checked;
-      var na = document.getElementById('notavail').checked;
-      if (ya) this.status = "avaliable";
-      if (na) this.status = "not avaliable";
-
-      if (this.hasWiFi != true) this.hasWiFi = false
-      if (this.laundryFacilities != true) this.laundryFacilities = false
-      if (this.hasParking != true) this.hasParking = false
-      if (this.wheelChairAccessible != true) this.wheelChairAccessible = false
-      if (this.houseKeepingServices != true) this.houseKeepingServices = false
-      if (this.sharedStudyArea != true) this.sharedStudyArea = false
-      if (this.hasElevator != true) this.hasElevator = false
 
       axios.post("http://swe2.varion.co:3010/admin/buildings/create", {
         name: this.aptName,
@@ -386,9 +313,7 @@ export default {
         securityFeatures: this.securityFeatures,
         numberOfFloors: this.numFloors,
         hasParking: this.hasParking,
-        maleOnly: this.maleOnly,
-        femaleOnly: this.femaleOnly,
-        coed: this.coed,
+        gender: this.gender,
         wheelChairAccessible: this.wheelChairAccessible,
         houseKeepingServices: this.houseKeepingServices,
         hasElevator: this.hasElevator

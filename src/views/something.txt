@@ -1,6 +1,0 @@
-
-
-
-    privateKitchen: Boolean,
-
-    privateBathroom: Boolean,

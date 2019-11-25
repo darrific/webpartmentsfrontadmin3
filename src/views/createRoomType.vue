@@ -37,7 +37,7 @@
                                 <input v-model="description" id="description" type="text" class="validate">
                                 <label for="description">Description</label>
                             </div>
-                        </div>`
+                        </div>
                     </form>
                 </div>
         
@@ -222,34 +222,35 @@ export default {
     name: "roomType",
     data(){
         return{
-            roomType: {},
             name: "",
             stars: "",
             price: "",
-            hasAC:  "",
-            hasBed: "",
-            hasRefrigerator: "",
-            hasMicrowave: "",
-            hasTelevision: "",
-            hasCouch: "",
-            hasDesk: "",
-            hasChair: "",
-            hasWardrobe: "",
+            hasAC: false,
+            hasBed: false,
+            hasRefrigerator: false,
+            hasMicrowave: false,
+            hasTelevision: false,
+            hasCouch: false,
+            hasDesk: false,
+            hasChair: false,
+            hasWardrobe: false,
             otherFurnishings: "",
-            hasHotWater: "",
+            hasHotWater: false,
             numberOfBedrooms: "",
-            privateKitchen: "",
-            communalKitchen: "",
-            privateBathroom: "",
-            communalBathroom: "",
+            privateKitchen: false,
+            communalKitchen: false,
+            privateBathroom: false,
+            communalBathroom: false,
             description: "",
             dateCreated: "",
-            hasSmokeDetector: ""
+            hasSmokeDetector: false
         }
     },
     methods: {
         saveRoomType(){
-            axios.post("http://swe2.varion.co:3010/admin/buildings/create",{
+            console.log(this.roomType)
+            axios.post("http://swe2.varion.co:3010/admin/buildings/edit",{
+                // id: $route.params.apartmentId,
                 name: this.name,
                 stars: this.stars,
                 price: this.price,
