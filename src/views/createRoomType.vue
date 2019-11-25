@@ -218,6 +218,7 @@
 
 <script>
 import axios from 'axios'
+import Router from 'vue-router'
 export default {
     name: "roomType",
     data(){
@@ -250,7 +251,7 @@ export default {
         saveRoomType(){
             console.log(this.roomType)
             axios.post("http://swe2.varion.co:3010/admin/buildings/edit",{
-                // id: $route.params.apartmentId,
+                id: this.$route.params.apartmentId,
                 name: this.name,
                 stars: this.stars,
                 price: this.price,

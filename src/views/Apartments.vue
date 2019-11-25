@@ -1,5 +1,22 @@
 <template>
   <div class="apartments">
+      <div id="modal1" class="modal">
+        <div class="modal-content">
+          <h4>Delete {{deleteid}}</h4>
+          <h6>Enter Password</h6>
+          <div class="row">
+          <div class="input-field col s12">
+            <input id="password" type="password" class="validate">
+            <label for="password">Password</label>
+          </div>
+      </div>
+        </div>
+        <div class="modal-footer">
+          <a class="btn-floating modal-trigger" href="#" >
+            <i class="material-icons" @click="deleteBuilding(apt._id)">delete</i>
+          </a>
+        </div>
+      </div>
       <section>
         <div class="container">
           <div class="row col xl12">
@@ -56,10 +73,12 @@ export default {
   name : "apartments",
   data(){
         return{
-            apartments: [] 
+            apartments: [],
+            deleteid: "" 
     }
   },
   mounted(){
+    $('.modal').modal()
     axios.get("http://swe2.varion.co:3010/admin/buildings")
     .then(data=>{
       data.data.data.forEach(element => {
@@ -72,21 +91,30 @@ export default {
   },
   methods: {
     deleteBuilding(id){
-      axios.post("http://swe2.varion.co:3010/admin/buildings/delete/", {
+      $('.modal').modal('open')
+      this.deleteid = this.apartments[this.apartments.findIndex(element => element._id == id)].name
+      if (document.getElementById("password").value === "dW5KYext*vgj=%^B"){
+        
+        axios.post("http://swe2.varion.co:3010/admin/buildings/delete/", {
         buildingId: id
-      })
-      .then(data=>{
-        if(data.data.success){
-          this.apartments.splice(this.apartments.findIndex(element => element._id == id), 1)
-          console.log("Deleted")
-        }
-        if(!data.data){
-          console.log("Not Deleted")
-        }
-      })
-      .catch(err=>{
-        console.log(err);
-      })
+        })
+        .then(data=>{
+          if(data.data.success){
+            this.apartments.splice(this.apartments.findIndex(element => element._id == id), 1)
+            console.log("Deleted")
+          }
+          if(!data.data){
+            console.log("Not Deleted")
+          }
+        })
+        .catch(err=>{
+          console.log(err);
+        })
+      }
+      else {
+        console.log('IDK')
+      }
+      
     }
   },
     

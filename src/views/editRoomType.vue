@@ -215,3 +215,72 @@
       </section>
   </div>
 </template>
+
+<script>
+import axios from 'axios'
+export default {
+    name: "roomType",
+    data(){
+        return{
+            name: "",
+            stars: "",
+            price: "",
+            hasAC: false,
+            hasBed: false,
+            hasRefrigerator: false,
+            hasMicrowave: false,
+            hasTelevision: false,
+            hasCouch: false,
+            hasDesk: false,
+            hasChair: false,
+            hasWardrobe: false,
+            otherFurnishings: "",
+            hasHotWater: false,
+            numberOfBedrooms: "",
+            privateKitchen: false,
+            communalKitchen: false,
+            privateBathroom: false,
+            communalBathroom: false,
+            description: "",
+            dateCreated: "",
+            hasSmokeDetector: false
+        }
+    },
+    methods: {
+        saveRoomType(){
+            console.log(this.roomType)
+            axios.post("http://swe2.varion.co:3010/admin/buildings/edit",{
+            //  id: $route.params.apartmentId,
+                name: this.name,
+                stars: this.stars,
+                price: this.price,
+                hasAC:  this.hasAC,
+                hasBed: this.hasBed,
+                hasRefrigerator: this.hasRefrigerator,
+                hasMicrowave: this.hasMicrowave,
+                hasTelevision: this.hasTelevision,
+                hasCouch: this.hasCouch,
+                hasDesk: this.hasDesk,
+                hasChair: this.hasChair,
+                hasWardrobe: this.hasWardrobe,
+                otherFurnishings: this.otherFurnishings,
+                hasHotWater: this.hasHotWater,
+                numberOfBedrooms: this.numberOfBedrooms,
+                privateKitchen: this.privateKitchen,
+                communalKitchen: this.communalKitchen,
+                privateBathroom: this.privateBathroom,
+                communalBathroom: this.communalBathroom,
+                description: this.description,
+                dateCreated: this.dateCreated,
+                hasSmokeDetector: this.hasSmokeDetector
+            })
+            .then(data=>{
+                console.log(data);
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+        }
+    }
+}
+</script>

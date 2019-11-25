@@ -121,13 +121,16 @@
                   <span class="helper-text">Apartment Address</span>
                 </div>
               </div>
-              <label for="room_types">Room Types</label>
+              <h5>Room Types</h5> 
+              <router-link :to="{name: 'createroomtype', apartmentId: apt._id}">
+                <button class="btn">Add Room</button>
+              </router-link>                
               <table id="room_types">
                 <thead>
                   <tr>
                       <th>Room Type Name</th>
                       <th>Price</th>
-                      <th>Create</th>
+                      <!-- <th>Create</th> -->
                       <th>Edit</th>
                       <th>Delete</th>
                   </tr>
@@ -136,13 +139,13 @@
                   <tr>
                     <td>Studio</td>
                     <td>3137</td>
-                    <td>
+                    <!-- <td>
                     <router-link :to="{name: 'createroomtype'}">
                         <a class="btn-floating" href="#">
                           <i class="material-icons">add</i>
                         </a>
                       </router-link>
-                    </td>
+                    </td> -->
                     <td>
                       <router-link :to="{name: 'editroomtype'}">
                         <a class="btn-floating" href="#">
