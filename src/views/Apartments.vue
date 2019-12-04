@@ -89,6 +89,7 @@ export default {
       data.data.data.forEach(element => {
         element.editURL = "/editApartment/"+element._id
         this.apartments.push(element)
+        console.log(this.$store.state.token);
       });
     })
     .catch(err=>{
