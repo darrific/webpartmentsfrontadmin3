@@ -6,23 +6,19 @@
           <div class="row col xl12">
             <div>
             <h5>Main Information</h5>
-            <form class="col s12">
+            <div class="col s12">
               <div class="row">
-                <div class="input-field col s4">
+                <div class="input-field col s8">
                   <input v-model="aptName" id="apt_name" type="text" class="validate">
                   <label for="apt_name">Apartment Name</label>
                 </div>
                 <div class="input-field col s4">
                   <input v-model="generalCost" id="gen_cost" type="number" class="validate">
-                  <label for="gen_cost">General Cost (Between 1 and 3)</label>
-                </div>
-                <div class="input-field col s4">
-                  <input v-model="dateCreated" id="date_created" type="text" class="validate">
-                  <label for="date_created">Date Created</label>
+                  <label for="gen_cost">General Cost</label>
                 </div>
               </div>
               <div>
-                <form action="#">
+                <div>
                   <div class="input-field col s4">
                     <p>
                       <label>
@@ -47,10 +43,10 @@
                       </label>
                     </p>
                   </div>
-                </form>
+                </div>
               </div>
               <div class="row">
-                <form action="#">
+                <div>
                   <div class="col s6">
                   <p>
                     <label>
@@ -67,27 +63,27 @@
                       </label>
                     </p>
                   </div>
-                </form>
+                </div>
               </div>
               <div class="row">
-                <form class="col s12">
+                <div class="col s12">
                   <div class="input-field col s12">
                     <input v-model="policies" id="apt_pol" type="text" class="validate">
                     <label for="apt_name">Apartment Policy</label>
                   </div>
-                </form>
+                </div>
               </div>
               <div class="row">
-                <form class="col s12">
+                <div class="col s12">
                   <div class="row">
                     <div class="input-field col s12">
                       <input v-model="description" id="desc" type="text" class="validate">
                       <label for="apt_name">Description</label>
                     </div>
                   </div>
-                </form>
+                </div>
               </div>
-            </form>
+            </div>
           </div>
           <div class="row"></div>
           <div class="row"></div>
@@ -95,7 +91,7 @@
           <div>
             <h5>Owner Information</h5>
             <div class="row"></div>
-            <form class="col s12">
+            <div class="col s12">
               <div class="row">
                 <div class="input-field col s4">
                   <input v-model="owner" id="owner_name" type="text" class="validate">
@@ -116,111 +112,111 @@
                   <label for="apartment_address">Apartment Address</label>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
 
           <div>
             <h5>Amenities</h5>
             <div class="row">
                 <div class="input-field col s4">
-                  <form action="#">
+                  <div>
                     <p>
                       <label>
                         <input v-model="hasWiFi" type="checkbox" />
                         <span>WiFi</span>
                        </label>
                     </p>
-                  </form>
+                  </div>
                 </div>
                 <div class="input-field col s4">
-                  <form action="#">
+                  <div>
                     <p>
                       <label>
                         <input v-model="laundryFacilities" type="checkbox" />
                         <span>Laundry Facilities</span>
                        </label>
                     </p>
-                  </form>
+                  </div>
                 </div>
                 <div class="input-field col s4">
-                  <form action="#">
+                  <div>
                     <p>
                       <label>
                         <input v-model="hasParking" type="checkbox" />
                         <span>Parking</span>
                        </label>
                     </p>
-                  </form>
+                  </div>
                 </div>
                 <div class="input-field col s4">
-                  <form action="#">
+                  <div>
                     <p>
                       <label>
                         <input v-model="wheelChairAccessible" type="checkbox" />
                         <span>Wheel Chair Accessibility</span>
                        </label>
                     </p>
-                  </form>
+                  </div>
                 </div>
                 <div class="input-field col s4">
-                  <form action="#">
+                  <div>
                     <p>
                       <label>
                         <input v-model="houseKeepingServices" type="checkbox" />
                         <span>House Keeping Services</span>
                        </label>
                     </p>
-                  </form>
+                  </div>
                 </div>
                 <div class="input-field col s4">
-                  <form action="#">
+                  <div>
                     <p>
                       <label>
                         <input v-model="sharedStudyArea" type="checkbox" />
                         <span>Shared Study Area</span>
                        </label>
                     </p>
-                  </form>
+                  </div>
                 </div>
                 <div class="input-field col s12">
-                  <form action="#">
+                  <div>
                     <p>
                       <label>
                         <input v-model="hasElevator" type="checkbox" />
                         <span>Elevator</span>
                        </label>
                     </p>
-                  </form>
+                  </div>
                 </div>
                 <div class="row">
-                <form class="col s12">
+                <div class="col s12">
                   <div class="row">
                     <div class="input-field col s12">
                       <input v-model="amenities" id="desc" type="text" class="validate">
                       <label for="apt_name">Other Amenities</label>
                     </div>
                   </div>
-                </form>
+                </div>
               </div>
                 <div class="row">
-                  <form class="col s12">
+                  <div class="col s12">
                     <div class="row">
                       <div class="input-field col s12">
                         <input v-model="laundryPolicy" id="desc" type="text" class="validate">
                         <label for="apt_name">Laundry Policy</label>
                       </div>
                     </div>
-                  </form>
+                  </div>
                 </div>
                 <div class="row">
-                  <form class="col s12">
+                  <div class="col s12">
                     <div class="row">
                       <div class="input-field col s12">
                         <input v-model="securityFeatures" id="desc" type="text" class="validate">
                         <label for="apt_name">Security Features</label>
                       </div>
                     </div>
-                  </form>
+                  </div>
                 </div>
                 <div class="input-field col s6">
                   <input v-model="numFloors" id="num_floors" type="number" class="validate">
@@ -231,20 +227,6 @@
                   <label for="walking_dist">Walking Distance to Campus</label>
                 </div>
               </div>
-          </div>
-
-          <div>
-            <h5>Images</h5>
-            <div class="row">
-              <div class="col s6">
-                <h6>Primary Image</h6>
-                <a class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>UPLOAD</a>
-              </div>
-              <div class="col s6">
-                <h6>Thumbnail</h6>
-                <a class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>UPLOAD</a>
-              </div>
-            </div>
           </div>
           <div class="row">
             <a v-on:click="saveBuilding" class="waves-effect waves-light btn-small"><i class="material-icons right">check</i>Done</a>         
@@ -257,6 +239,7 @@
 </template>
 <script>
 import axios from 'axios'
+import Router from 'vue-router'
 export default {
   name : "apartments",
   data(){
@@ -267,7 +250,6 @@ export default {
           ownerTel: "",
           ownerEmail: "",
           address: "",
-          dateCreated: "",
           aptPolicy: "",
           description: "",
           policies: "",
@@ -289,20 +271,15 @@ export default {
   },
   methods: {
     saveBuilding(){
-
       axios.post("http://localhost:3010/admin/buildings/create", {
         name: this.aptName,
         owner: this.owner,
         ownerTel: this.ownerTel,
         ownerEmail: this.ownerEmail,
-        // primaryImage: String,
         address: this.address,
-        // comments: [commentSchema],
         generalCost: this.generalCost,
-        // roomTypes: [roomSchema],
         status: this.status,
         description: this.description,
-        dateCreated: this.dateCreated,
         amenities: this.amenities,
         policies: this.policies,
         wifiProvided: this.hasWiFi,
@@ -317,11 +294,12 @@ export default {
         wheelChairAccessible: this.wheelChairAccessible,
         houseKeepingServices: this.houseKeepingServices,
         hasElevator: this.hasElevator
-
       })
       .then(data=>{
         console.log(data)
         if (data.data.success){
+            M.toast({html: 'Building Created'})
+            this.$router.push({ name: "apartments"})
           console.log("Created");
         }
         if (!data.data.success){

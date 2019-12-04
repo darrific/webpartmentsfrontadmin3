@@ -3,7 +3,7 @@
       <section>
         <div class="container">
           <div>
-              <h1>Create Room Type for</h1>
+              <h1>Create Room Type for {{this.$route.params.buildingName}}</h1>
           </div>    
                 <div class="row">
                     <h5>Main Information</h5>
@@ -26,10 +26,6 @@
                             <div class="input-field col s4">
                                 <input v-model="numberOfBedrooms" id="num_beds" type="number" class="validate">
                                 <label for="num_beds">Number of Bedrooms</label>
-                            </div>
-                            <div class="col s4">
-                                <input v-model="dateCreated" id="date_created" type="number" class="validate">
-                                <label for="date_created">Date Created</label>
                             </div>
                         </div>
                         <div class="row">
@@ -243,9 +239,11 @@ export default {
             privateBathroom: false,
             communalBathroom: false,
             description: "",
-            dateCreated: "",
             hasSmokeDetector: false
         }
+    },
+    mounted(){
+        window.scrollTo(0,top);
     },
     methods: {
         saveRoomType(){
@@ -276,9 +274,10 @@ export default {
                 hasSmokeDetector: this.hasSmokeDetector
             })
             .then(data=>{
-                if(data.data.success)
-                    M.toast({html: 'It Added'})
-                console.log(data);
+                if(data.data.success){
+                    M.toast({html: 'Room Type Created'})
+                    this.$router.push("/editApartment/"+this.$route.params.apartmentId)
+                }
             })
             .catch(err=>{
                 console.log(err);

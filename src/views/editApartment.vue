@@ -17,7 +17,7 @@
                   <span class="helper-text">Apartment Name</span>
                 </div>
                 <div class="input-field col s4">
-                  <input id="gen_cost" type="number" class="validate" :value="apt.generalCost">
+                  <input id="gen_cost" type="number" class="validate" v-model="apt.generalCost">
                   <span class="helper-text">General Cost</span>
                 </div>
                 <div class="input-field col s4">
@@ -91,7 +91,7 @@
                   <div class="row">
                     <div class="input-field col s12">
                       <input v-model="apt.description" id="desc" type="text" class="validate">
-                      <span class="helper-text">Desctiption</span>
+                      <span class="helper-text">Description</span>
                     </div>
                   </div>
                 </form>
@@ -123,7 +123,7 @@
                 </div>
               </div>
               <h5>Room Types</h5> 
-              <router-link :to="{name: 'createroomtype', params: {apartmentId: apt._id}}">
+              <router-link :to="{name: 'createroomtype', params: {apartmentId: apt._id, buildingName: apt.name}}">
                 <button class="btn">Add Room</button>
               </router-link>                
               <table id="room_types">
@@ -140,7 +140,7 @@
                     <td>{{r.name}}</td>
                     <td>{{r.price}}</td>
                     <td>
-                      <router-link :to="{name: 'editroomtype', params: {roomTypeId: r._id}}">
+                      <router-link :to="r.editURL">
                         <a class="btn-floating" href="#">
                           <i class="material-icons">edit</i>
                         </a>
@@ -270,17 +270,48 @@
                 </div>
               </div>
           </div>
-
           <div>
             <h5>Images</h5>
             <div class="row">
               <div class="col s6">
-                <h6>Primary Image</h6>
-                <a class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>UPLOAD</a>
+                <b>Primary Image</b>
+                <hr>
+                <img :src="coverImgURL" width="100%" alt="">
+                <input type="file" @change="buildingCoverChanged">
+                <button class="btn" @click="uploadBuildingCover">Upload!</button>
+                <!-- <form :action="coverUploadURL" method="POST" enctype="multipart/form-data">
+                  <div class="file-field input-field">
+                    <img :src="coverImgURL" width="100%" alt="">
+                    <input type="file" id="buildingCover" ref="buildingCover" name="buildingCover">
+                    <div class="file-path-wrapper"></div>
+                  </div>
+                  <button class="btn" type="submit">Upload</button>
+                </form> -->
               </div>
               <div class="col s6">
-                <h6>Thumbnail</h6>
-                <a class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>UPLOAD</a>
+                <b>Gallery</b>
+                <hr>
+                <div class="row">
+                  <div class="col s4 galleryItemOuter" v-for="{img, key, index} in buildingGallery" :key="key">
+                    <i class="material-icons right" @click="deleteGalleryItem(key, index)">close</i>
+                    <div class="imgGalleryItem">
+                      <img :src=img width="100%" alt="">
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <input type="file" @change="buildingGalleryChanged" multiple>
+                  <button class="btn" @click="uploadBuildingGallery">Upload</button>
+                </div>
+                <!-- <form :action="galleryUploadURL" method="POST" enctype="multipart/form-data">
+                  <div class="file-field input-field">
+                    <input type="file" id="buildingGalleryImg" ref="buildingGalleryImg" name="buildingGalleryImg" multiple>
+                    <div class="file-path-wrapper">
+                      <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                    </div>
+                  </div>
+                  <button class="btn" type="submit">Upload</button>
+                </form> -->
               </div>
             </div>
           </div>
@@ -291,31 +322,21 @@
               <table>
                 <thead>
                   <tr>
-                      <th>User Name</th>
+                      <th>User Id</th>
                       <th>Review</th>
-                      <th>View</th>
+                      <th>Rating</th>
+                      <th>Date</th>
                       <th>Delete</th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  <tr>
-                    <td>Alvin</td>
-                    <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi rerum animi voluptas sunt, voluptatum commodi ad inventore maiores eveniet a itaque possimus qui placeat? Nulla distinctio vitae optio ea illo.</td>
-                    <td><i class="material-icons">remove_red_eye</i></td>
-                    <td><i class="material-icons">delete</i></td>
-                  </tr>
-                  <tr>
-                    <td>Alan</td>
-                    <td>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa, totam porro. Quo vitae fugiat corporis? Sit dignissimos, tempore aliquam laboriosam sed voluptatum accusamus pariatur ipsum, blanditiis sint asperiores, necessitatibus aliquid.</td>
-                    <td><i class="material-icons">remove_red_eye</i></td>
-                    <td><i class="material-icons">delete</i></td>
-                  </tr>
-                  <tr>
-                    <td>Jonathan</td>
-                    <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae sint accusamus qui consectetur quis sequi pariatur fugiat earum, eum soluta possimus quam deserunt minus excepturi! Magnam vitae ab debitis sunt?</td>
-                    <td><i class="material-icons">remove_red_eye</i></td>
-                    <td><i class="material-icons">delete</i></td>
+                  <tr v-for="comment in apt.comments" :key="comment._id">
+                    <td>{{comment.userId}}</td>
+                    <td>{{comment.commentBody}}</td>
+                    <td>{{comment.rating}}</td>
+                    <td>{{comment.dateCreated}}</td>
+                    <td><a href="#" @click="deleteComment(comment._id)"><i class="material-icons">delete</i></a></td>
                   </tr>
                 </tbody>
               </table>
@@ -333,21 +354,37 @@
 <script>
 import axios from 'axios'
 export default {
-  name : "apartments",
+  name : "editapartment",
   data(){
     return{
-      apt: {}
+      apt: {},
+      buildingCover: '',
+      coverUploadURL: "",
+      coverImgURL: "",
+      galleryUploadURL: "",
+      buildingGallery: [],
+      selectedFile: null,
+      fileList: []
     }
   },
   mounted(){
-    axios.get("http://swe2.varion.co:3010/admin/buildings/"+this.$route.params.apartmentId)
+    axios.get("http://localhost:3010/admin/buildings/"+this.$route.params.id, {
+      headers: {
+        Authorization: "Bearer " + this.$store.state.token
+      }})
     .then(data=>{
       this.apt = data.data.data;
+      this.coverUploadURL = 'http://localhost:3010/admin/buildings/uploadCover/'+this.apt._id
+      this.galleryUploadURL = 'http://localhost:3010/admin/buildings/uploadGallery/'+this.apt._id
+      this.coverImgURL = 'https://webpartments.nyc3.digitaloceanspaces.com/buildingCover-'+this.apt._id
+      this.apt.gallery.forEach(item=>{this.buildingGallery.push({img: "https://webpartments.nyc3.digitaloceanspaces.com/"+item, key: item})})
+      this.apt.roomTypes.forEach(type=>{type.editURL = "/editRoomType/"+this.apt._id+"/"+type._id})
+      window.scrollTo(0,top);
     })
   },
   methods: {
     updateBuilding(){
-      axios.post("http://swe2.varion.co:3010/admin/buildings/edit", {
+      axios.post("http://localhost:3010/admin/buildings/edit", {
         id: this.apt._id,
         name: this.apt.name,
         owner: this.apt.owner,
@@ -359,7 +396,7 @@ export default {
         generalCost: this.apt.generalCost,
         // roomTypes: [roomSchema],
         status: this.apt.status,
-        description: this.apt.desctiption,
+        description: this.apt.description,
         dateCreated: this.apt.dateCreated,
         amenities: this.apt.amenities,
         policies: this.apt.policies,
@@ -379,10 +416,11 @@ export default {
       .then(data=>{
         console.log(data);
         if (data.data.success){
-          console.log("Edited");
+          M.toast({html: 'Building Edited'})
+          this.$router.push({ name: "apartments"})
         }
         if (!data.data.success){
-          console.log("Failure ting");
+          M.toast({html: 'Error'})
         }
       })
       .catch(err=>{
@@ -407,7 +445,108 @@ export default {
       .catch(err=>{
         console.log(err)
       })
+    },
+    deleteGalleryItem(item, index){
+      axios.post("http://localhost:3010/admin/buildings/deleteGalleryItem", {
+        buildingId: this.apt._id,
+        itemId: item
+      })
+      .then(data=>{
+        console.log(data);
+        if (data.data.success){
+          M.toast({html: 'Image Deleted'})
+          this.buildingGallery.splice(index,1);
+        }
+        if (!data.data.success){
+          console.log("Image was not deleted");
+        }
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+    },
+    deleteComment(id){
+      axios.post("http://localhost:3010/admin/buildings/deleteComment", {
+        commentId: id
+      })
+      .then(data=>{
+        console.log(data);
+        if (data.data.success){
+          M.toast({html: 'Comment Deleted'})
+        }
+        if (!data.data.success){
+          console.log("Comment was not deleted");
+        }
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+    },
+    buildingGalleryChanged(){
+      event.target.files.forEach(file=>{
+        this.fileList.push(file);
+      })
+    },
+    uploadBuildingGallery(){
+      const formData = new FormData()
+      this.fileList.forEach(file=>{
+        formData.append('buildingGalleryImg', file, file.name)
+      })
+      axios({
+        method: 'post',
+        url: this.galleryUploadURL,
+        data: formData,
+        headers: {
+          Authorization: "Bearer " + this.$store.state.token,
+          headers: {'Content-Type': 'multipart/form-data' }
+        }
+      })
+      .then(data=>{
+        console.log(data);
+        M.toast({html: 'Building Gallery Changed'})
+        // this.coverImgURL = data.data[0].location;
+        this.apt.gallery = data.data.gallery;
+        this.apt.gallery.forEach(item=>{
+          this.buildingGallery.push({img: "https://webpartments.nyc3.digitaloceanspaces.com/"+item, key: item})
+        })
+      })
+      .catch(err=>{
+        console.log(err);
+      })
+    },
+    buildingCoverChanged(){
+      this.selectedFile = event.target.files[0];
+    },
+    uploadBuildingCover(){
+      const formData = new FormData()
+      formData.append('buildingCover', this.selectedFile, this.selectedFile.name)
+      axios({
+        method: 'post',
+        url: this.coverUploadURL,
+        data: formData,
+        headers: {
+          Authorization: "Bearer " + this.$store.state.token,
+          headers: {'Content-Type': 'multipart/form-data' }
+        }
+      })
+      .then(data=>{
+        console.log(data);
+        M.toast({html: 'Building Cover Changed'})
+        this.coverImgURL = data.data[0].location;
+      })
+      .catch(err=>{
+        console.log(err);
+      })
     }
   }
 }
 </script>
+<style scoped>
+  .imgGalleryItem{
+    height: 130px;
+  }
+
+  .galleryItemOuter {
+    margin-top: 20px;
+  }
+</style>

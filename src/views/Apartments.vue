@@ -47,7 +47,7 @@
                     <td>{{apt.address}}</td>
                     <td>{{apt.status}}</td>
                     <td>
-                      <router-link :to="{ name: 'editapartment', params: { apartmentId: apt._id, apartmentName: apt.name}}">
+                      <router-link :to="apt.editURL">
                         <a href="#"><i class="material-icons">edit</i></a>
                       </router-link>
                     </td>
@@ -68,7 +68,6 @@
 
 <script>
 import axios from 'axios'
-import Router from 'vue-router'
 export default {
   name : "apartments",
   data(){
@@ -76,13 +75,19 @@ export default {
             apartments: [],
             deleteid: "",
             deleteName: ""
+
     }
   },
   mounted(){
     $('.modal').modal()
-    axios.get("http://swe2.varion.co:3010/admin/buildings")
+    axios.get("http://localhost:3010/admin/buildings",{
+      headers: {
+        Authorization: "Bearer " + this.$store.state.token
+      }
+    })
     .then(data=>{
       data.data.data.forEach(element => {
+        element.editURL = "/editApartment/"+element._id
         this.apartments.push(element)
       });
     })
@@ -99,13 +104,13 @@ export default {
     },
     deleteBuilding(id){
       this.deleteid = id;
-      axios.post("http://swe2.varion.co:3010/admin/buildings/delete/", {
-        buildingId: this.deleteid
+      axios.post("http://localhost:3010/admin/buildings/delete/", {
+        buildingId: this.deleteid,
       })
       .then(data=>{
-        console.log(data);
         if(data.data.success){
           this.apartments.splice(this.apartments.findIndex(x => x._id == this.deleteid), 1)
+          M.toast({html: 'Apartment Deleted'})
           console.log("Deleted")
         }
       })

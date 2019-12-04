@@ -8,24 +8,24 @@
               <table>
                 <thead>
                   <tr>
-                      <th>Name</th>
+                      <th>Email</th>
                       <th>Report</th>
-                      <th>Date Created</th>
-                      <th>Status</th>
+                      <th>Resolved</th>
+                      <th>Timestamp</th>
                       <th>Delete</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>HUGH MUNGAS </td>
-                    <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum eos rem quo facilis amet rerum, aliquid, numquam reiciendis soluta delectus placeat cum et minima velit doloribus quos .</td>
-                    <td>33/33/33</td>
+                  <tr v-for="report in reports" :key="report._id">
+                    <td>{{report.email}}</td>
+                    <td>{{report.report}}</td>
                     <td>
-                        <form action="#"> <p><label><input type="checkbox" /><span>Resolved</span></label></p></form>
+                        <form action="#"> <p><label><input type="checkbox" v-model="report.isResolved" @click="updateBug(report._id, $event)"/><span>Resolved</span></label></p></form>
                     </td>
+                    <td>{{report.timestamp}}</td>
                     <td>
-                      <a class="btn-floating modal-trigger" href="#delete" >
-                        <i class="material-icons">delete</i>
+                      <a class="btn-floating" href="#" >
+                        <i class="material-icons" @click="deleteBugReport(report._id)">delete</i>
                       </a>
                     </td>
                   </tr>
@@ -37,3 +37,63 @@
       </section>
   </div>
 </template>
+<script>
+import axios from 'axios'
+export default {
+  name : "bugReport",
+  data(){
+    return{
+      reports: []
+    }
+  },
+  mounted(){
+    console.log("We in");
+    axios.get("http://localhost:3010/admin/bugs/", {
+      headers: {
+        Authorization: "Bearer " + this.$store.state.token
+      }})
+      .then(data=>{
+        window.scrollTo(0,top);
+        this.reports = data.data.data;
+      })
+  },
+  methods: {
+    updateBug(id, event){
+      axios.post("http://localhost:3010/admin/bugs/update", {
+        id: id,
+        isResolved: event.target.checked
+      })
+      .then(data=>{
+        console.log(data);
+        if (data.data.success){
+          M.toast({html: 'Bug Report Edited'})
+        }
+        if (!data.data.success){
+          M.toast({html: 'Error'})
+        }
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+    },
+    deleteBugReport(id){
+      axios.post("http://localhost:3010/admin/bugs/delete", {
+        id: id
+      })
+      .then(data=>{
+        console.log(data);
+        if (data.data.success){
+          this.reports.splice(this.reports.map(e => e._id).indexOf(id), 1);
+          M.toast({html: 'Bug Report Deleted'})
+        }
+        if (!data.data.success){
+          M.toast({html: 'Error'})
+        }
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+    }
+  }
+}
+</script>
