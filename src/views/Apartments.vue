@@ -31,10 +31,9 @@
                 <thead>
                   <tr>
                       <th>Building Name</th>
-                      <th>Date Created</th>
                       <th>Contact Info</th>
                       <th>Address</th>
-                      <th>Status</th>
+                      <th>Rooms Available</th>
                       <th></th>
                       <th></th>
                   </tr>
@@ -42,7 +41,6 @@
                 <tbody>
                   <tr v-bind:key="apt._id" v-for="apt in apartments">
                     <td>{{apt.name}}</td>
-                    <td>{{apt.dateCreated}}</td>
                     <td>{{apt.ownerTel}}</td>
                     <td>{{apt.address}}</td>
                     <td>{{apt.status}}</td>

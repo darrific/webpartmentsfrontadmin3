@@ -20,15 +20,11 @@
                   <input id="gen_cost" type="number" class="validate" v-model="apt.generalCost">
                   <span class="helper-text">General Cost</span>
                 </div>
-                <div class="input-field col s4">
-                  <input v-model="apt.dateCreated" id="date_created" type="text" class="validate">
-                  <span class="helper-text">Date Created</span>
-                </div>
               </div>
               <div>
                 <div class="row">
                   <form action="#">
-                    <div class="col s4">
+                    <!-- <div class="col s4">
                       <p>
                         <label>
                           <input v-model="apt.gender" value="male" name="group1" type="radio"/>
@@ -51,7 +47,7 @@
                           <span>coed</span>
                         </label>
                       </p>
-                    </div>
+                    </div> -->
                   </form>
                 </div>
 
@@ -61,7 +57,7 @@
                   <div class="col s6">
                   <p>
                     <label>
-                      <input v-model="apt.status" value="avaliable" name="group1" type="radio"/>
+                      <input v-model="apt.status" value="true" name="group2" type="radio"/>
                       <span>Avaliable Rooms</span>
                     </label>
                   </p>
@@ -69,7 +65,7 @@
                   <div class="col s6">
                     <p>
                       <label>
-                        <input v-model="apt.status" value="not avaliable" name="group1" type="radio"/>
+                        <input v-model="apt.status" value="false" name="group2" type="radio"/>
                         <span>No Avaliable Rooms</span>
                       </label>
                     </p>
@@ -204,8 +200,8 @@
                   <form action="#">
                     <p>
                       <label>
-                        <input v-model="apt.houseKeepingServices" type="checkbox" />
-                        <span>House Keeping Services</span>
+                        <input v-model="apt.hasAC" type="checkbox" />
+                        <span>Air Conditioning</span>
                        </label>
                     </p>
                   </form>
@@ -214,8 +210,8 @@
                   <form action="#">
                     <p>
                       <label>
-                        <input v-model="apt.sharedStudyArea" type="checkbox" />
-                        <span>Shared Study Area</span>
+                        <input v-model="apt.hasHotWater" type="checkbox" />
+                        <span>Hot Water Provided</span>
                        </label>
                     </p>
                   </form>
@@ -224,8 +220,8 @@
                   <form action="#">
                     <p>
                       <label>
-                        <input v-model="apt.hasElevator" type="checkbox" />
-                        <span>Elevator</span>
+                        <input v-model="apt.hasSecurityCameras" type="checkbox" />
+                        <span>Security Cameras</span>
                        </label>
                     </p>
                   </form>
@@ -374,6 +370,7 @@ export default {
       }})
     .then(data=>{
       this.apt = data.data.data;
+      console.log(this.apt);
       this.coverUploadURL = 'http://localhost:3010/admin/buildings/uploadCover/'+this.apt._id
       this.galleryUploadURL = 'http://localhost:3010/admin/buildings/uploadGallery/'+this.apt._id
       this.coverImgURL = 'https://webpartments.nyc3.digitaloceanspaces.com/buildingCover-'+this.apt._id
@@ -384,6 +381,7 @@ export default {
   },
   methods: {
     updateBuilding(){
+      console.log(this.apt.hasAC)
       axios.post("http://localhost:3010/admin/buildings/edit", {
         id: this.apt._id,
         name: this.apt.name,
@@ -411,7 +409,10 @@ export default {
         gender: this.apt.gender,
         wheelChairAccessible: this.apt.wheelChairAccessible,
         houseKeepingServices: this.apt.houseKeepingServices,
-        hasElevator: this.apt.hasElevator
+        hasElevator: this.apt.hasElevator,
+        hasHotWater: this.apt.hasHotWater,
+        hasAC: this.apt.hasAC,
+        hasSecurityCameras: this.apt.hasSecurityCameras
       })
       .then(data=>{
         console.log(data);

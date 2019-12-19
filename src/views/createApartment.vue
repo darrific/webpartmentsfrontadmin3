@@ -19,7 +19,7 @@
               </div>
               <div>
                 <div>
-                  <div class="input-field col s4">
+                  <!-- <div class="input-field col s4">
                     <p>
                       <label>
                         <input v-model="gender" value="male" name="group1" type="radio" id="m" />
@@ -34,15 +34,15 @@
                         <span>Female Only </span>
                       </label>
                     </p>
-                  </div>
-                  <div class="input-field col s4">
+                  </div> -->
+                  <!-- <div class="input-field col s4">
                     <p>
                       <label>
                         <input v-model="gender" value="coed" name="group1" type="radio" id="na" />
                         <span>coed</span>
                       </label>
                     </p>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="row">
@@ -50,7 +50,7 @@
                   <div class="col s6">
                   <p>
                     <label>
-                      <input v-model="status" value="avaliable" name="group1" type="radio"  id="avail"/>
+                      <input v-model="status" value="true" name="group2" type="radio"  id="avail"/>
                       <span>Avaliable Rooms</span>
                     </label>
                   </p>
@@ -58,7 +58,7 @@
                   <div class="col s6">
                     <p>
                       <label>
-                        <input v-model="status" value="not avaliable" name="group1" type="radio" id="notavail" />
+                        <input v-model="status" value="false" name="group2" type="radio" id="notavail" />
                         <span>No Avaliable Rooms</span>
                       </label>
                     </p>
@@ -162,8 +162,8 @@
                   <div>
                     <p>
                       <label>
-                        <input v-model="houseKeepingServices" type="checkbox" />
-                        <span>House Keeping Services</span>
+                        <input v-model="hasHotWater" type="checkbox" />
+                        <span>Hot Water</span>
                        </label>
                     </p>
                   </div>
@@ -172,8 +172,8 @@
                   <div>
                     <p>
                       <label>
-                        <input v-model="sharedStudyArea" type="checkbox" />
-                        <span>Shared Study Area</span>
+                        <input v-model="hasAC" type="checkbox" />
+                        <span>Air Conditioning</span>
                        </label>
                     </p>
                   </div>
@@ -182,8 +182,8 @@
                   <div>
                     <p>
                       <label>
-                        <input v-model="hasElevator" type="checkbox" />
-                        <span>Elevator</span>
+                        <input v-model="hasSecurityCameras" type="checkbox" />
+                        <span>Security Cameras</span>
                        </label>
                     </p>
                   </div>
@@ -265,6 +265,9 @@ export default {
           laundryFacilities: false,
           sharedStudyArea: false,
           hasElevator: false,
+          hasHotWater: false,
+          hasAC: false,
+          hasSecurityCameras: false,
           gender: "",
           status: ""
     }
@@ -286,14 +289,14 @@ export default {
         laundryFacilities: this.laundryFacilities,
         laundryPolicy: this.laundryPolicy,
         walkingDistanceToCampus: this.walkingDistance,
-        sharedStudyArea: this.sharedStudyArea,
         securityFeatures: this.securityFeatures,
         numberOfFloors: this.numFloors,
         hasParking: this.hasParking,
         gender: this.gender,
         wheelChairAccessible: this.wheelChairAccessible,
-        houseKeepingServices: this.houseKeepingServices,
-        hasElevator: this.hasElevator
+        hasHotWater: this.hasHotWater,
+        hasAC: this.hasAC,
+        hasSecurityCameras: this.hasSecurityCameras
       })
       .then(data=>{
         console.log(data)
